@@ -1,39 +1,37 @@
 import 'package:chat_app/constants.dart';
-import 'package:chat_app/pages/cubit/auth_cubit/auth_cubit.dart';
-import 'package:chat_app/pages/cubit/chat_cubit/chat_cubit.dart';
-import 'package:chat_app/pages/register_page.dart';
+import 'package:chat_app/helper/show_snack_bar.dart';
+import 'package:chat_app/view_model/auth_cubit/auth_cubit.dart';
+import 'package:chat_app/view/auth/login_page.dart';
 import 'package:chat_app/widgets/custom_button.dart';
 import 'package:chat_app/widgets/custom_form_text_field.dart';
 import 'package:chat_app/widgets/custom_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import '../helper/show_snack_bar.dart';
-import 'chat_page.dart';
 
 // ignore: must_be_immutable
-class LoginPage extends StatelessWidget {
-  static const String screenRoute = 'login page';
+class RegisterPage extends StatelessWidget {
+  static const String screenRoute = "RegisterPage";
+  String? email;
+  String? password;
+  bool isLoading = false;
+  GlobalKey<FormState> formKey = GlobalKey();
 
-  final GlobalKey<FormState> formKey = GlobalKey();
-  String? email, password;
-
-  LoginPage({super.key});
+  RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state is LoginSuccess) {
-          BlocProvider.of<ChatCubit>(context).getMessage();
-          Navigator.pushNamed(context, ChatPage.screenRoute, arguments: email);
-        } else if (state is LoginFailure) {
+        if (state is RegisterSuccess) {
+          Navigator.pushNamed(context, LoginPage.screenRoute);
+        } else if (state is RegisterFailure) {
           showSnackBar(context, state.errMassage);
         }
       },
       builder: (context, state) {
         return ModalProgressHUD(
-          inAsyncCall: state is LoginLoading,
+          inAsyncCall: state is RegisterLoading,
           child: Scaffold(
             backgroundColor: kPrimaryColor,
             body: Padding(
@@ -45,7 +43,6 @@ class LoginPage extends StatelessWidget {
                     const SizedBox(height: 75),
                     Image.asset('assets/images/scholar.png', height: 100),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
                         CustomText(
                           text: 'Scholar Chat',
@@ -61,7 +58,7 @@ class LoginPage extends StatelessWidget {
                     Row(
                       children: const [
                         CustomText(
-                          text: 'LOGIN',
+                          text: 'REGISTER',
                           style: TextStyle(fontSize: 24, color: Colors.white),
                         ),
                       ],
@@ -87,28 +84,26 @@ class LoginPage extends StatelessWidget {
                         if (formKey.currentState!.validate()) {
                           BlocProvider.of<AuthCubit>(
                             context,
-                          ).loginUser(email: email!, password: password!);
-                        }
+                          ).registerUser(email: email!, password: password!);
+                        } else {}
                       },
-                      text: 'LOGIN',
+
+                      text: 'REGISTER',
                     ),
                     const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CustomText(
-                          text: 'don\'t have an account?',
+                          text: 'already have an account?',
                           style: const TextStyle(color: Colors.white),
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              RegisterPage.screenRoute,
-                            );
+                            Navigator.pop(context);
                           },
                           child: CustomText(
-                            text: ' Register',
+                            text: 'Login',
                             style: const TextStyle(color: Color(0xffC7EDE6)),
                           ),
                         ),

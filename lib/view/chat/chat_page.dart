@@ -1,12 +1,12 @@
 import 'package:chat_app/constants.dart';
 import 'package:chat_app/models/message.dart';
 import 'package:chat_app/widgets/chat_buble.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'cubit/chat_cubit/chat_cubit.dart';
+import '../../view_model/chat_cubit/chat_cubit.dart';
 
+// ignore: must_be_immutable
 class ChatPage extends StatelessWidget {
   ChatPage({super.key});
   static const String screenRoute = 'ChatPage';

@@ -1,12 +1,12 @@
-import 'package:chat_app/pages/cubit/auth_cubit/auth_cubit.dart';
-import 'package:chat_app/pages/cubit/chat_cubit/chat_cubit.dart';
-import 'package:chat_app/pages/login_page.dart';
-import 'package:chat_app/pages/register_page.dart';
+import 'package:chat_app/view_model/auth_cubit/auth_cubit.dart';
+import 'package:chat_app/view_model/chat_cubit/chat_cubit.dart';
+import 'package:chat_app/view/auth/login_page.dart';
+import 'package:chat_app/view/auth/register_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'pages/chat_page.dart';
+import 'view/chat/chat_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
