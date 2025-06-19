@@ -17,10 +17,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           );
           emit(LoginSuccess());
         } on FirebaseAuthException catch (ex) {
+          print('FirebaseAuthException code: ${ex.code}');
           String errorMessage;
-          if (ex.code == 'user-not-found') {
-            errorMessage = "User not found";
-          } else if (ex.code == 'wrong-password') {
+          if (ex.code == 'invalid-email') {
+            errorMessage = "Invalid email";
+          } else if (ex.code == 'invalid-credential') {
             errorMessage = "Wrong password";
           } else {
             errorMessage = "Authentication error: ${ex.message}";
@@ -40,9 +41,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           );
           emit(RegisterSuccess());
         } on FirebaseAuthException catch (ex) {
+          print('FirebaseAuthException code: ${ex.code}');
           String errorMessage;
-          if (ex.code == 'weak-password') {
-            errorMessage = 'Weak password';
+          if (ex.code == 'invalid-email') {
+            errorMessage = 'Invalid-email';
           } else if (ex.code == 'email-already-in-use') {
             errorMessage = "Email already in use";
           } else {
