@@ -1,6 +1,7 @@
-part of 'auth_cubit.dart';
+part of 'auth_bloc.dart';
 
-abstract class AuthState {}
+@immutable
+sealed class AuthState {}
 
 final class AuthInitial extends AuthState {}
 
