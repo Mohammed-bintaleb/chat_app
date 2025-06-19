@@ -1,26 +1,19 @@
-import 'package:chat_app/view_model/auth_cubit/auth_cubit.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:chat_app/simple_bloc_observer.dart';
+import 'package:chat_app/view_model/bloc/auth_bloc/auth_bloc.dart';
 import 'package:chat_app/view_model/chat_cubit/chat_cubit.dart';
 import 'package:chat_app/view/auth/login_page.dart';
 import 'package:chat_app/view/auth/register_page.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'view/chat/chat_page.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: FirebaseOptions(
-      apiKey: "AIzaSyCuNJsl2DaHgUpc_9ZG58rrvHWtAts1tSw",
-      authDomain: "chat-app-a220d.firebaseapp.com",
-      projectId: "chat-app-a220d",
-      storageBucket: "chat-app-a220d.firebasestorage.app",
-      messagingSenderId: "78028916490",
-      appId: "1:78028916490:web:9819bc4ff79d151d7ddcf3",
-      measurementId: "G-GJWW7WH7T5",
-    ),
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  Bloc.observer = SimpleBlocObserver();
+
   runApp(const ScholarChat());
 }
 
@@ -31,8 +24,8 @@ class ScholarChat extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => AuthCubit()),
         BlocProvider(create: (_) => ChatCubit()),
+        BlocProvider(create: (_) => AuthBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
